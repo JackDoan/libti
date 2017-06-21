@@ -53,6 +53,7 @@ float32 tempSensor_scaleFactor;
 //
 void InitTempSensor(float32 vrefhi_voltage)
 {
+#ifdef CPU1
     EALLOW;
 
     //
@@ -93,6 +94,7 @@ void InitTempSensor(float32 vrefhi_voltage)
         tempSensor_tempSlope = 5196;
         tempSensor_tempOffset = 1788;
     }
+#endif
 }
 
 //

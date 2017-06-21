@@ -16,7 +16,7 @@
 //
 #include "F2837xD_device.h"
 #include "F2837xD_Examples.h"
-
+#ifdef CPU1
 //
 // InitUpp1Gpio - Initialize UPP1 GPIOs
 //
@@ -118,7 +118,7 @@ void SoftResetUpp(void)
     asm("          NOP");
     UppRegs.PERCTL.bit.SOFTRST = 0;  // Release uPP Internal Reset.
 }
-
+#endif
 //
 // End of file
 //

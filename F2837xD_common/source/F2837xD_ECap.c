@@ -16,7 +16,7 @@
 //
 #include "F2837xD_device.h"
 #include "F2837xD_Examples.h"
-
+#ifdef CPU1
 //
 // InitECap - This function initializes the eCAP(s) to a known state.
 //
@@ -112,7 +112,7 @@ void InitAPwm1Gpio()
     GpioCtrlRegs.GPAMUX1.bit.GPIO5 = 3;    // Select OUTPUTXBAR3 on GPIO5
     EDIS;
 }
-
+#endif
 //
 // End of file
 //

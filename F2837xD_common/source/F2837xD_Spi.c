@@ -95,6 +95,7 @@ void InitSpiGpio()
 //
 void InitSpiaGpio()
 {
+#ifdef CPU1
    EALLOW;
 
     //
@@ -139,6 +140,7 @@ void InitSpiaGpio()
     GpioCtrlRegs.GPAMUX2.bit.GPIO19 = 1; // Configure GPIO19 as SPISTEA
 
     EDIS;
+#endif
 }
 
 //

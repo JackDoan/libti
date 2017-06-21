@@ -59,6 +59,7 @@ void InitEQepGpio()
 //
 void InitEQep1Gpio(void)
 {
+#ifdef CPU1
     EALLOW;
 
     //
@@ -150,6 +151,7 @@ void InitEQep1Gpio(void)
 //    GpioCtrlRegs.GPDMUX1.bit.GPIO99 = 1;    // Configure GPIO99 as EQEP1I
 
     EDIS;
+#endif;
 }
 
 //
@@ -157,6 +159,7 @@ void InitEQep1Gpio(void)
 //
 void InitEQep2Gpio(void)
 {
+#ifdef CPU1
     EALLOW;
 
     //
@@ -248,6 +251,7 @@ void InitEQep2Gpio(void)
 //    GpioCtrlRegs.GPDMUX1.bit.GPIO103 = 1;   // Configure GPIO103 as EQEP2I
 
     EDIS;
+#endif
 }
 
 //
@@ -255,6 +259,7 @@ void InitEQep2Gpio(void)
 //
 void InitEQep3Gpio(void)
 {
+#ifdef CPU1
     EALLOW;
 
     //
@@ -353,6 +358,7 @@ void InitEQep3Gpio(void)
 //    GpioCtrlRegs.GPDMUX1.bit.GPIO107 = 1;   // Configure GPIO107 as EQEP3I
 
     EDIS;
+#endif
 }
 
 //

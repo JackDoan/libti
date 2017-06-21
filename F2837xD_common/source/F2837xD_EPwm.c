@@ -16,7 +16,7 @@
 //
 #include "F2837xD_device.h"
 #include "F2837xD_Examples.h"
-
+#ifdef CPU1
 //
 // InitEPwmGpio - Initialize all EPWM modules' GPIOs
 //
@@ -405,3 +405,4 @@ void InitEPwm12Gpio(void)
 
     EDIS;
 }
+#endif
