@@ -28,55 +28,26 @@ struct CPUTIMER_VARS CpuTimer2;
 // InitCpuTimers - This function initializes all three CPU timers to a known
 //                 state.
 //
-void InitCpuTimers(void)
-{
+void InitCpuTimers(void) {
     //
-    // CPU Timer 0
     // Initialize address pointers to respective timer registers:
     //
     CpuTimer0.RegsAddr = &CpuTimer0Regs;
-
-    //
-    // Initialize timer period to maximum:
-    //
-    CpuTimer0Regs.PRD.all  = 0xFFFFFFFF;
-
-    //
-    // Initialize pre-scale counter to divide by 1 (SYSCLKOUT):
-    //
-    CpuTimer0Regs.TPR.all  = 0;
-    CpuTimer0Regs.TPRH.all = 0;
-
-    //
-    // Make sure timer is stopped:
-    //
-    CpuTimer0Regs.TCR.bit.TSS = 1;
-
-    //
-    // Reload all counter register with period value:
-    //
-    CpuTimer0Regs.TCR.bit.TRB = 1;
-
-    //
-    // Reset interrupt counters:
-    //
-    CpuTimer0.InterruptCount = 0;
-
-    //
-    // Initialize address pointers to respective timer registers:
-    //
     CpuTimer1.RegsAddr = &CpuTimer1Regs;
     CpuTimer2.RegsAddr = &CpuTimer2Regs;
 
     //
     // Initialize timer period to maximum:
     //
+    CpuTimer0Regs.PRD.all  = 0xFFFFFFFF;
     CpuTimer1Regs.PRD.all  = 0xFFFFFFFF;
     CpuTimer2Regs.PRD.all  = 0xFFFFFFFF;
 
     //
     // Initialize pre-scale counter to divide by 1 (SYSCLKOUT):
     //
+    CpuTimer0Regs.TPR.all  = 0;
+    CpuTimer0Regs.TPRH.all = 0;
     CpuTimer1Regs.TPR.all  = 0;
     CpuTimer1Regs.TPRH.all = 0;
     CpuTimer2Regs.TPR.all  = 0;
@@ -85,18 +56,21 @@ void InitCpuTimers(void)
     //
     // Make sure timers are stopped:
     //
+    CpuTimer0Regs.TCR.bit.TSS = 1;
     CpuTimer1Regs.TCR.bit.TSS = 1;
     CpuTimer2Regs.TCR.bit.TSS = 1;
 
     //
     // Reload all counter register with period value:
     //
+    CpuTimer0Regs.TCR.bit.TRB = 1;
     CpuTimer1Regs.TCR.bit.TRB = 1;
     CpuTimer2Regs.TCR.bit.TRB = 1;
 
     //
     // Reset interrupt counters:
     //
+    CpuTimer0.InterruptCount = 0;
     CpuTimer1.InterruptCount = 0;
     CpuTimer2.InterruptCount = 0;
 }

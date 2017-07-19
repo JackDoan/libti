@@ -20,8 +20,8 @@
 #include "F2837xD_Cla_typedefs.h"  // F2837xD CLA Type definitions
 #include "F2837xD_device.h"        // F2837xD Headerfile Include File
 #include "F2837xD_Examples.h"      // F2837xD Examples Include File
-typedef Uint16 uint16;
-typedef Uint32 uint32;
+//typedef unsigned int Uint16;
+//typedef unsigned long Uint32;
 
 
 #endif  // end of F28X_PROJECT_H definition

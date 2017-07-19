@@ -40,54 +40,34 @@ extern struct CPUTIMER_VARS CpuTimer2;
 // Start Timer:
 //
 #define StartCpuTimer0()   CpuTimer0Regs.TCR.bit.TSS = 0
-
-//
-// Stop Timer:
-//
-#define StopCpuTimer0()   CpuTimer0Regs.TCR.bit.TSS = 1
-
-//
-// Reload Timer With period Value:
-//
-#define ReloadCpuTimer0() CpuTimer0Regs.TCR.bit.TRB = 1
-
-//
-// Read 32-Bit Timer Value:
-//
-#define ReadCpuTimer0Counter() CpuTimer0Regs.TIM.all
-
-//
-// Read 32-Bit Period Value:
-//
-#define ReadCpuTimer0Period() CpuTimer0Regs.PRD.all
-
-//
-// Start Timer:
-//
 #define StartCpuTimer1()   CpuTimer1Regs.TCR.bit.TSS = 0
 #define StartCpuTimer2()   CpuTimer2Regs.TCR.bit.TSS = 0
 
 //
 // Stop Timer:
 //
+#define StopCpuTimer0()   CpuTimer0Regs.TCR.bit.TSS = 1
 #define StopCpuTimer1()   CpuTimer1Regs.TCR.bit.TSS = 1
 #define StopCpuTimer2()   CpuTimer2Regs.TCR.bit.TSS = 1
 
 //
 // Reload Timer With period Value:
 //
+#define ReloadCpuTimer0() CpuTimer0Regs.TCR.bit.TRB = 1
 #define ReloadCpuTimer1() CpuTimer1Regs.TCR.bit.TRB = 1
 #define ReloadCpuTimer2() CpuTimer2Regs.TCR.bit.TRB = 1
 
 //
 // Read 32-Bit Timer Value:
 //
+#define ReadCpuTimer0Counter() CpuTimer0Regs.TIM.all
 #define ReadCpuTimer1Counter() CpuTimer1Regs.TIM.all
 #define ReadCpuTimer2Counter() CpuTimer2Regs.TIM.all
 
 //
 // Read 32-Bit Period Value:
 //
+#define ReadCpuTimer0Period() CpuTimer0Regs.PRD.all
 #define ReadCpuTimer1Period() CpuTimer1Regs.PRD.all
 #define ReadCpuTimer2Period() CpuTimer2Regs.PRD.all
 

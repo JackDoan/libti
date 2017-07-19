@@ -1296,10 +1296,7 @@ CANErrCntrGet(uint32_t ui32Base, uint32_t *pui32RxCount,
 //! \return None.
 //
 //*****************************************************************************
-void
-CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
-              tMsgObjType eMsgType)
-{
+void CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject, tMsgObjType eMsgType) {
     uint32_t ui32CmdMaskReg;
     uint32_t ui32MaskReg;
     uint32_t ui32ArbReg;
@@ -1325,13 +1322,12 @@ CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
     }
 
     // See if we need to use an extended identifier or not.
-    if((pMsgObject->ui32MsgID > CAN_MAX_11BIT_MSG_ID) ||
-       (pMsgObject->ui32Flags & MSG_OBJ_EXTENDED_ID))
+    if((pMsgObject->ID > CAN_MAX_11BIT_MSG_ID) ||
+       (pMsgObject->Flags & MSG_OBJ_EXTENDED_ID))
     {
         bUseExtendedID = 1;
     }
-    else
-    {
+    else {
         bUseExtendedID = 0;
     }
 
@@ -1421,38 +1417,33 @@ CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
     }
 
     // Configure the Mask Registers.
-    if(pMsgObject->ui32Flags & MSG_OBJ_USE_ID_FILTER)
-    {
-        if(bUseExtendedID)
-        {
+    if(pMsgObject->Flags & MSG_OBJ_USE_ID_FILTER) {
+        if(bUseExtendedID) {
             // Set the 29 bits of Identifier mask that were requested.
-            ui32MaskReg = pMsgObject->ui32MsgIDMask & CAN_IF1MSK_MSK_M;
+            ui32MaskReg = pMsgObject->IDMask & CAN_IF1MSK_MSK_M;
         }
-        else
-        {
-
-            // Put the 11 bit Mask Identifier into the upper bits of the field
-            // in the register.
-            ui32MaskReg = ((pMsgObject->ui32MsgIDMask << CAN_IF1ARB_STD_ID_S) &
+        else {
+            // Put the 11 bit Mask Identifier into the upper bits of the field in the register.
+            ui32MaskReg = ((pMsgObject->IDMask << CAN_IF1ARB_STD_ID_S) &
                            CAN_IF1ARB_STD_ID_M);
         }
     }
 
     // If the caller wants to filter on the extended ID bit then set it.
-    if((pMsgObject->ui32Flags & MSG_OBJ_USE_EXT_FILTER) ==
+    if((pMsgObject->Flags & MSG_OBJ_USE_EXT_FILTER) ==
        MSG_OBJ_USE_EXT_FILTER)
     {
         ui32MaskReg |= CAN_IF1MSK_MXTD;
     }
 
     // The caller wants to filter on the message direction field.
-    if((pMsgObject->ui32Flags & MSG_OBJ_USE_DIR_FILTER) ==
+    if((pMsgObject->Flags & MSG_OBJ_USE_DIR_FILTER) ==
        MSG_OBJ_USE_DIR_FILTER)
     {
         ui32MaskReg |= CAN_IF1MSK_MDIR;
     }
 
-    if(pMsgObject->ui32Flags & (MSG_OBJ_USE_ID_FILTER | MSG_OBJ_USE_DIR_FILTER |
+    if(pMsgObject->Flags & (MSG_OBJ_USE_ID_FILTER | MSG_OBJ_USE_DIR_FILTER |
                               MSG_OBJ_USE_EXT_FILTER))
     {
         // Set the UMASK bit to enable using the mask register.
@@ -1467,40 +1458,38 @@ CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
     ui32CmdMaskReg |= CAN_IF1CMD_ARB;
 
     // Configure the Arbitration registers.
-    if(bUseExtendedID)
-    {
+    if(bUseExtendedID) {
         // Set the 29 bit version of the Identifier for this message object.
         // Mark the message as valid and set the extended ID bit.
-        ui32ArbReg |= (pMsgObject->ui32MsgID & CAN_IF1ARB_ID_M) |
+        ui32ArbReg |= (pMsgObject->ID & CAN_IF1ARB_ID_M) |
                       CAN_IF1ARB_MSGVAL | CAN_IF1ARB_XTD;
     }
-    else
-    {
+    else {
         // Set the 11 bit version of the Identifier for this message object.
         // The lower 18 bits are set to zero.
         // Mark the message as valid.
-        ui32ArbReg |= ((pMsgObject->ui32MsgID << CAN_IF1ARB_STD_ID_S) &
+        ui32ArbReg |= ((pMsgObject->ID << CAN_IF1ARB_STD_ID_S) &
                        CAN_IF1ARB_STD_ID_M) | CAN_IF1ARB_MSGVAL;
     }
 
     // Set the data length since this is set for all transfers.  This is also a
     // single transfer and not a FIFO transfer so set EOB bit.
-    ui32MsgCtrl |= (pMsgObject->ui32MsgLen & CAN_IF1MCTL_DLC_M);
+    ui32MsgCtrl |= (pMsgObject->Length & CAN_IF1MCTL_DLC_M);
 
     // Mark this as the last entry if this is not the last entry in a FIFO.
-    if((pMsgObject->ui32Flags & MSG_OBJ_FIFO) == 0)
+    if((pMsgObject->Flags & MSG_OBJ_FIFO) == 0)
     {
         ui32MsgCtrl |= CAN_IF1MCTL_EOB;
     }
 
     // Enable transmit interrupts if they should be enabled.
-    if(pMsgObject->ui32Flags & MSG_OBJ_TX_INT_ENABLE)
+    if(pMsgObject->Flags & MSG_OBJ_TX_INT_ENABLE)
     {
         ui32MsgCtrl |= CAN_IF1MCTL_TXIE;
     }
 
     // Enable receive interrupts if they should be enabled.
-    if(pMsgObject->ui32Flags & MSG_OBJ_RX_INT_ENABLE)
+    if(pMsgObject->Flags & MSG_OBJ_RX_INT_ENABLE)
     {
         ui32MsgCtrl |= CAN_IF1MCTL_RXIE;
     }
@@ -1508,9 +1497,9 @@ CANMessageSet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
     // Write the data out to the CAN Data registers if needed.
     if(bTransferData)
     {
-        CANDataRegWrite(pMsgObject->pucMsgData,
+        CANDataRegWrite(pMsgObject->Data,
                         (uint32_t *)(ui32Base + CAN_O_IF1DATA),
-                        pMsgObject->ui32MsgLen);
+                        pMsgObject->Length);
     }
 
     // Write out the registers to program the message object.
@@ -1605,13 +1594,13 @@ CANMessageGet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
     ui32MaskReg = HWREG(ui32Base + CAN_O_IF2MSK);
     ui32ArbReg = HWREG(ui32Base + CAN_O_IF2ARB);
     ui32MsgCtrl = HWREG(ui32Base + CAN_O_IF2MCTL);
-    pMsgObject->ui32Flags = MSG_OBJ_NO_FLAGS;
+    pMsgObject->Flags = MSG_OBJ_NO_FLAGS;
 
     // Determine if this is a remote frame by checking the TXRQST and DIR bits.
     if((!(ui32MsgCtrl & CAN_IF2MCTL_TXRQST) && (ui32ArbReg & CAN_IF2ARB_DIR)) ||
        ((ui32MsgCtrl & CAN_IF2MCTL_TXRQST) && (!(ui32ArbReg & CAN_IF2ARB_DIR))))
     {
-        pMsgObject->ui32Flags |= MSG_OBJ_REMOTE_FRAME;
+        pMsgObject->Flags |= MSG_OBJ_REMOTE_FRAME;
     }
 
     // Get the identifier out of the register, the format depends on size of
@@ -1619,21 +1608,21 @@ CANMessageGet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
     if(ui32ArbReg & CAN_IF2ARB_XTD)
     {
         // Set the 29 bit version of the Identifier for this message object.
-        pMsgObject->ui32MsgID = ui32ArbReg & CAN_IF2ARB_ID_M;
+        pMsgObject->ID = ui32ArbReg & CAN_IF2ARB_ID_M;
 
-        pMsgObject->ui32Flags |= MSG_OBJ_EXTENDED_ID;
+        pMsgObject->Flags |= MSG_OBJ_EXTENDED_ID;
     }
     else
     {
         // The Identifier is an 11 bit value.
-        pMsgObject->ui32MsgID = (ui32ArbReg &
+        pMsgObject->ID = (ui32ArbReg &
                                  CAN_IF2ARB_STD_ID_M) >> CAN_IF2ARB_STD_ID_S;
     }
 
     // Indicate that we lost some data.
     if(ui32MsgCtrl & CAN_IF2MCTL_MSGLST)
     {
-        pMsgObject->ui32Flags |= MSG_OBJ_DATA_LOST;
+        pMsgObject->Flags |= MSG_OBJ_DATA_LOST;
     }
 
     // Set the flag to indicate if ID masking was used.
@@ -1642,70 +1631,70 @@ CANMessageGet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
         if(ui32ArbReg & CAN_IF2ARB_XTD)
         {
             // The Identifier Mask is assumed to also be a 29 bit value.
-            pMsgObject->ui32MsgIDMask = (ui32MaskReg & CAN_IF2MSK_MSK_M);
+            pMsgObject->IDMask = (ui32MaskReg & CAN_IF2MSK_MSK_M);
 
             // If this is a fully specified Mask and a remote frame then don't
             // set the MSG_OBJ_USE_ID_FILTER because the ID was not really
             // filtered.
-            if((pMsgObject->ui32MsgIDMask != 0x1fffffff) ||
-               ((pMsgObject->ui32Flags & MSG_OBJ_REMOTE_FRAME) == 0))
+            if((pMsgObject->IDMask != 0x1fffffff) ||
+               ((pMsgObject->Flags & MSG_OBJ_REMOTE_FRAME) == 0))
             {
-                pMsgObject->ui32Flags |= MSG_OBJ_USE_ID_FILTER;
+                pMsgObject->Flags |= MSG_OBJ_USE_ID_FILTER;
             }
         }
         else
         {
             // The Identifier Mask is assumed to also be an 11 bit value.
-            pMsgObject->ui32MsgIDMask = ((ui32MaskReg & CAN_IF2MSK_MSK_M) >>
+            pMsgObject->IDMask = ((ui32MaskReg & CAN_IF2MSK_MSK_M) >>
                                          18);
 
             // If this is a fully specified Mask and a remote frame then don't
             // set the MSG_OBJ_USE_ID_FILTER because the ID was not really
             // filtered.
-            if((pMsgObject->ui32MsgIDMask != 0x7ff) ||
-               ((pMsgObject->ui32Flags & MSG_OBJ_REMOTE_FRAME) == 0))
+            if((pMsgObject->IDMask != 0x7ff) ||
+               ((pMsgObject->Flags & MSG_OBJ_REMOTE_FRAME) == 0))
             {
-                pMsgObject->ui32Flags |= MSG_OBJ_USE_ID_FILTER;
+                pMsgObject->Flags |= MSG_OBJ_USE_ID_FILTER;
             }
         }
 
         // Indicate if the extended bit was used in filtering.
         if(ui32MaskReg & CAN_IF2MSK_MXTD)
         {
-            pMsgObject->ui32Flags |= MSG_OBJ_USE_EXT_FILTER;
+            pMsgObject->Flags |= MSG_OBJ_USE_EXT_FILTER;
         }
 
         // Indicate if direction filtering was enabled.
         if(ui32MaskReg & CAN_IF2MSK_MDIR)
         {
-            pMsgObject->ui32Flags |= MSG_OBJ_USE_DIR_FILTER;
+            pMsgObject->Flags |= MSG_OBJ_USE_DIR_FILTER;
         }
     }
 
     // Set the interrupt flags.
     if(ui32MsgCtrl & CAN_IF2MCTL_TXIE)
     {
-        pMsgObject->ui32Flags |= MSG_OBJ_TX_INT_ENABLE;
+        pMsgObject->Flags |= MSG_OBJ_TX_INT_ENABLE;
     }
     if(ui32MsgCtrl & CAN_IF2MCTL_RXIE)
     {
-        pMsgObject->ui32Flags |= MSG_OBJ_RX_INT_ENABLE;
+        pMsgObject->Flags |= MSG_OBJ_RX_INT_ENABLE;
     }
 
     // See if there is new data available.
     if(ui32MsgCtrl & CAN_IF2MCTL_NEWDAT)
     {
         // Get the amount of data needed to be read.
-        pMsgObject->ui32MsgLen = (ui32MsgCtrl & CAN_IF2MCTL_DLC_M);
+        pMsgObject->Length = (ui32MsgCtrl & CAN_IF2MCTL_DLC_M);
 
         // Don't read any data for a remote frame, there is nothing valid in
         // that buffer anyway.
-        if((pMsgObject->ui32Flags & MSG_OBJ_REMOTE_FRAME) == 0)
+        if((pMsgObject->Flags & MSG_OBJ_REMOTE_FRAME) == 0)
         {
             // Read out the data from the CAN registers.
-            CANDataRegRead(pMsgObject->pucMsgData,
+            CANDataRegRead(pMsgObject->Data,
                            (uint32_t *)(ui32Base + CAN_O_IF2DATA),
-                           pMsgObject->ui32MsgLen);
+                           pMsgObject->Length);
         }
 
         // Now clear out the new data flag.
@@ -1721,13 +1710,13 @@ CANMessageGet(uint32_t ui32Base, uint32_t ui32ObjID, tCANMsgObject *pMsgObject,
         }
 
         // Indicate that there is new data in this message.
-        pMsgObject->ui32Flags |= MSG_OBJ_NEW_DATA;
+        pMsgObject->Flags |= MSG_OBJ_NEW_DATA;
     }
     else
     {
         // Along with the MSG_OBJ_NEW_DATA not being set the amount of data
         // needs to be set to zero if none was available.
-        pMsgObject->ui32MsgLen = 0;
+        pMsgObject->Length = 0;
     }
 }
 

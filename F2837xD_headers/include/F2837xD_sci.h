@@ -214,18 +214,18 @@ struct SCI_REGS {
 //---------------------------------------------------------------------------
 // SCI External References & Function Declarations:
 //
-#ifdef CPU1
+
 extern volatile struct SCI_REGS SciaRegs;
 extern volatile struct SCI_REGS ScibRegs;
 extern volatile struct SCI_REGS ScicRegs;
 extern volatile struct SCI_REGS ScidRegs;
-#endif
-#ifdef CPU2
+
 extern volatile struct SCI_REGS SciaRegs;
 extern volatile struct SCI_REGS ScibRegs;
 extern volatile struct SCI_REGS ScicRegs;
 extern volatile struct SCI_REGS ScidRegs;
-#endif
+
+
 #ifdef __cplusplus
 }
 #endif                                  /* extern "C" */

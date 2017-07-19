@@ -119,20 +119,20 @@ extern "C"
 typedef struct
 {
         //! The CAN message identifier used for 11 or 29 bit identifiers.
-        uint32_t ui32MsgID;
+        uint32_t ID;
 
         //! The message identifier mask used when identifier filtering is enabled.
-        uint32_t ui32MsgIDMask;
+        uint32_t IDMask;
 
         //! This value holds various status flags and settings specified by
         //! tCANObjFlags.
-        uint32_t ui32Flags;
+        uint32_t Flags;
 
         //! This value is the number of bytes of data in the message object.
-        uint32_t ui32MsgLen;
+        uint32_t Length;
 
         //! This is a pointer to the message object's data.
-        unsigned char *pucMsgData;
+        unsigned char *Data;
 }
 tCANMsgObject;
 
