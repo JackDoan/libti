@@ -348,6 +348,7 @@ extern void F28x_usDelay(long LoopCount);
 // DO NOT MODIFY THIS LINE.
 //
 #define DELAY_US(A)  F28x_usDelay(((((long double) A * 1000.0L) / (long double)CPU_RATE) - 9.0L) / 5.0L)
+#define CPU_RATE   5.00L   // for a 200MHz CPU clock speed (SYSCLKOUT)
 
 //
 // Timer Operations:

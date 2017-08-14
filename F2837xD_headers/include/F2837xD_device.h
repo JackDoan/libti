@@ -33,7 +33,8 @@ extern "C" {
 // User To Select Target Device:
 //
 #define   F28_2837xD    TARGET
-
+#define CPU_RATE   5.00L   // for a 200MHz CPU clock speed (SYSCLKOUT)
+#define DELAY_US(A)  F28x_usDelay(((((long double) A * 1000.0L) / (long double)CPU_RATE) - 9.0L) / 5.0L)
 //
 // Common CPU Definitions:
 //
