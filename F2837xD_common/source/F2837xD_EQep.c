@@ -151,7 +151,7 @@ void InitEQep1Gpio(void)
 //    GpioCtrlRegs.GPDMUX1.bit.GPIO99 = 1;    // Configure GPIO99 as EQEP1I
 
     EDIS;
-#endif;
+#endif
 }
 
 //

@@ -142,7 +142,7 @@ void InitSysCtrl(void)
     //
     // Turn on all peripherals
     //
-    InitPeripheralClocks();
+    //InitPeripheralClocks();
 }
 
 //

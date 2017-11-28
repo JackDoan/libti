@@ -308,13 +308,14 @@ extern int16 GetTemperatureK(int16 sensorSample);
 // in Flash to a different RUN location in internal
 // RAM
 //
+#ifdef _FLASH
 extern Uint16 RamfuncsLoadStart;
 extern Uint16 RamfuncsLoadEnd;
 extern Uint16 RamfuncsLoadSize;
 extern Uint16 RamfuncsRunStart;
 extern Uint16 RamfuncsRunEnd;
 extern Uint16 RamfuncsRunSize;
-
+#endif
 #ifdef __cplusplus
 }
 #endif /* extern "C" */

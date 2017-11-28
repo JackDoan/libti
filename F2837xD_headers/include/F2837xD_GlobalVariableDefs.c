@@ -10,7 +10,8 @@
 // $Copyright: Copyright (C) 2013-2016 Texas Instruments Incorporated -
 //             http://www.ti.com/ ALL RIGHTS RESERVED $
 //###########################################################################
-
+#ifndef REGH_priv_H_
+#define REGH_priv_H_
 #include "F2837xD_device.h"     // F2837xD Headerfile Include File
 
 //---------------------------------------------------------------------------
@@ -856,7 +857,7 @@ volatile struct FLASH_ECC_REGS Flash0EccRegs;
 #endif
 volatile struct FLASH_CTRL_REGS Flash0CtrlRegs;
 
-
+#endif
 //===========================================================================
 // End of file.
 //===========================================================================
